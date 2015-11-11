@@ -1,11 +1,12 @@
 package stan.tre.ui.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +41,14 @@ public class Main
     protected void init()
     {
         initTess();
+        String ret;
+        Bitmap bmp = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+//                R.drawable.hi);
+//                R.drawable.pngbar);
+                R.drawable.photopng);
+        baseApi.setImage(bmp);
+        ret=baseApi.getUTF8Text();
+        Log.e("Main", "Result scan: " + ret);
     }
 
     private void initTess()
@@ -47,6 +56,7 @@ public class Main
         baseApi = new TessBaseAPI();
         String filepath = "tessdata";
         String filename = "rus.traineddata";
+//        String filename = "eng.traineddata";
         String absolutePath = this.getFilesDir().getAbsolutePath();
         File file = new File(absolutePath, filepath + "/" + filename);
         if(!file.exists())
@@ -77,5 +87,6 @@ public class Main
             }
         }
         baseApi.init(absolutePath, "rus");
+//        baseApi.init(absolutePath, "eng");
     }
 }
